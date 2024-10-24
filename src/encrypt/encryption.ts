@@ -11,11 +11,11 @@ export class Encryption {
         this.keyGeneration = new KeyGeneration();
     }
 
-    async getInitiatorSecret(user?: any) {
+    async getInitiatorSecret() {
         const keyDetails = this.keyGeneration.initiatorKey();
         const {key, prime, generator} = keyDetails;
         let data = await this.recipientKeys(prime, generator, key)
-        await this.appRepo.set('token-owner$' + user.id, data.public_key) /// optional todo get token owner
+        // await this.appRepo.set('token-owner$' + user.id, data.public_key) /// optional todo get token owner
         const secret_key = this.keyGeneration.initiatorSecret(data.public_key);
         await this.appRepo.set(data.public_key, secret_key);
         return {public_key: key};

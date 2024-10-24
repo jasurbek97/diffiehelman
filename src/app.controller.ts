@@ -6,7 +6,7 @@ import {ApiBasicAuth, ApiBearerAuth, ApiBody, ApiTags} from "@nestjs/swagger";
 import {AppDecryptDto, AppEncryptDto} from "./app.dto";
 
 @ApiTags('Test')
-@Controller('')
+@Controller('aes')
 export class AppController {
     @Inject() private readonly appRepo: AppRepo
 
@@ -14,7 +14,7 @@ export class AppController {
     async getKey(@User() user: any) {
         try {
             let encryption = new Encryption(this.appRepo)
-            let data = await encryption.getInitiatorSecret(user)
+            let data = await encryption.getInitiatorSecret()
             return {message: "ok", public_key: data.public_key}
         } catch (e) {
             console.log('e', e)
