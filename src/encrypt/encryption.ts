@@ -1,7 +1,7 @@
 import {randomBytes} from "crypto";
-import {Encryptor} from "./encryptor";
 import {AppRepo} from "../app.repo";
 import {KeyGeneration} from "./key-generation";
+import {AES256CBCEncryptor} from "./aes-256-cbc.encryptor";
 
 
 export class Encryption {
@@ -40,7 +40,7 @@ export class Encryption {
         if (!secretKey) {
             throw new Error("Invalid header value");
         }
-        const encryption = new Encryptor(secretKey, data.salt);
+        const encryption = new AES256CBCEncryptor(secretKey, data.salt);
         return JSON.parse(encryption.decrypt(data.payload));
     }
 
@@ -50,7 +50,7 @@ export class Encryption {
         if (!secretKey) {
             throw new Error("Invalid header value");
         }
-        const encryption = new Encryptor(secretKey, salt);
+        const encryption = new AES256CBCEncryptor(secretKey, salt);
         return {payload: encryption.encrypt(JSON.stringify(payload)), salt};
     }
 }
